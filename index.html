@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tennis Pong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-wrap">
+    <div id="scoreboard">
+      <div class="player-score">
+        <div class="player-name">Player 1</div>
+        <div class="score-num" id="s1">0</div>
+      </div>
+      <div class="divider">vs</div>
+      <div class="player-score">
+        <div class="player-name">Player 2</div>
+        <div class="score-num" id="s2">0</div>
+      </div>
+    </div>
+    <canvas id="c" width="640" height="360"></canvas>
+    <div id="msg">Press SPACE to serve</div>
+    <div id="controls">
+      <button id="btn-restart">New Game</button>
+      <button id="btn-ai">vs AI: OFF</button>
+    </div>
+    <div class="key-hint">P1: W / S &nbsp;|&nbsp; P2: ↑ / ↓ &nbsp;|&nbsp; SPACE: serve</div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
