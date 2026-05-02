@@ -352,56 +352,35 @@ document.getElementById('btn-ai').addEventListener('click', () => {
   resetGame();
 });
 
-// Touch controls — drag on left half moves P1, right half moves P2
-const touches = {}; // track active touches by identifier
+// D-pad button hold controls
+const btnState = { p1Up: false, p1Down: false, p2Up: false, p2Down: false };
 
-function getCanvasY(clientY) {
-  const rect = canvas.getBoundingClientRect();
-  const scaleY = H / rect.height;
-  return (clientY - rect.top) * scaleY;
+function holdButton(btn, stateKey) {
+  btn.addEventListener('mousedown', () => { btnState[stateKey] = true; });
+  btn.addEventListener('mouseup',   () => { btnState[stateKey] = false; });
+  btn.addEventListener('mouseleave',() => { btnState[stateKey] = false; });
+  btn.addEventListener('touchstart', e => { e.preventDefault(); btnState[stateKey] = true;  btn.classList.add('pressed'); },    { passive: false });
+  btn.addEventListener('touchend',   e => { e.preventDefault(); btnState[stateKey] = false; btn.classList.remove('pressed'); }, { passive: false });
+  btn.addEventListener('touchcancel',e => { e.preventDefault(); btnState[stateKey] = false; btn.classList.remove('pressed'); }, { passive: false });
 }
 
-function getCanvasX(clientX) {
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = W / rect.width;
-  return (clientX - rect.left) * scaleX;
+holdButton(document.getElementById('p1-up'),   'p1Up');
+holdButton(document.getElementById('p1-down'), 'p1Down');
+holdButton(document.getElementById('p2-up'),   'p2Up');
+holdButton(document.getElementById('p2-down'), 'p2Down');
+
+// Apply d-pad state inside the update loop
+const _origUpdate = update;
+// Patch update to include d-pad movement
+const DPAD_SPEED = 7;
+function update() {
+  _origUpdate();
+  if (btnState.p1Up)   state.p1.y = Math.max(0, state.p1.y - DPAD_SPEED);
+  if (btnState.p1Down) state.p1.y = Math.min(H - PADDLE_H, state.p1.y + DPAD_SPEED);
+  if (!vsAI) {
+    if (btnState.p2Up)   state.p2.y = Math.max(0, state.p2.y - DPAD_SPEED);
+    if (btnState.p2Down) state.p2.y = Math.min(H - PADDLE_H, state.p2.y + DPAD_SPEED);
+  }
 }
-
-canvas.addEventListener('touchstart', e => {
-  e.preventDefault();
-  for (const t of e.changedTouches) {
-    touches[t.identifier] = { x: getCanvasX(t.clientX), y: getCanvasY(t.clientY) };
-  }
-  // Single tap anywhere on canvas = serve
-  if (e.touches.length === 1) {
-    if (winner) { resetGame(); return; }
-    if (serving) serve();
-  }
-}, { passive: false });
-
-canvas.addEventListener('touchmove', e => {
-  e.preventDefault();
-  for (const t of e.changedTouches) {
-    const cx = getCanvasX(t.clientX);
-    const cy = getCanvasY(t.clientY);
-    touches[t.identifier] = { x: cx, y: cy };
-
-    const targetY = Math.min(Math.max(cy - PADDLE_H / 2, 0), H - PADDLE_H);
-
-    if (cx < W / 2) {
-      // Left side → P1
-      state.p1.y = targetY;
-    } else {
-      // Right side → P2
-      if (!vsAI) state.p2.y = targetY;
-    }
-  }
-}, { passive: false });
-
-canvas.addEventListener('touchend', e => {
-  for (const t of e.changedTouches) {
-    delete touches[t.identifier];
-  }
-}, { passive: false });
 
 loop();
