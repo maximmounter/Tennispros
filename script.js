@@ -50,7 +50,7 @@ function resetGame() {
   state.ball = { x: W / 2, y: H / 2, vx: 0, vy: 0 };
   document.getElementById('s1').textContent = 0;
   document.getElementById('s2').textContent = 0;
-  setMsg('Press SPACE to serve');
+  setMsg('Tap Serve or press SPACE');
 }
 
 function serve() {
@@ -342,10 +342,66 @@ function loop() {
 }
 
 document.getElementById('btn-restart').addEventListener('click', resetGame);
+document.getElementById('btn-serve').addEventListener('click', () => {
+  if (winner) { resetGame(); return; }
+  if (serving) serve();
+});
 document.getElementById('btn-ai').addEventListener('click', () => {
   vsAI = !vsAI;
   document.getElementById('btn-ai').textContent = `vs AI: ${vsAI ? 'ON' : 'OFF'}`;
   resetGame();
 });
+
+// Touch controls — drag on left half moves P1, right half moves P2
+const touches = {}; // track active touches by identifier
+
+function getCanvasY(clientY) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleY = H / rect.height;
+  return (clientY - rect.top) * scaleY;
+}
+
+function getCanvasX(clientX) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = W / rect.width;
+  return (clientX - rect.left) * scaleX;
+}
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  for (const t of e.changedTouches) {
+    touches[t.identifier] = { x: getCanvasX(t.clientX), y: getCanvasY(t.clientY) };
+  }
+  // Single tap anywhere on canvas = serve
+  if (e.touches.length === 1) {
+    if (winner) { resetGame(); return; }
+    if (serving) serve();
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  for (const t of e.changedTouches) {
+    const cx = getCanvasX(t.clientX);
+    const cy = getCanvasY(t.clientY);
+    touches[t.identifier] = { x: cx, y: cy };
+
+    const targetY = Math.min(Math.max(cy - PADDLE_H / 2, 0), H - PADDLE_H);
+
+    if (cx < W / 2) {
+      // Left side → P1
+      state.p1.y = targetY;
+    } else {
+      // Right side → P2
+      if (!vsAI) state.p2.y = targetY;
+    }
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+  for (const t of e.changedTouches) {
+    delete touches[t.identifier];
+  }
+}, { passive: false });
 
 loop();

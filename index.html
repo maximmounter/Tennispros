@@ -21,13 +21,17 @@
         <div class="score-num" id="s2">0</div>
       </div>
     </div>
-    <canvas id="c" width="640" height="360"></canvas>
-    <div id="msg">Press SPACE to serve</div>
+    <div id="canvas-wrap">
+      <canvas id="c" width="640" height="360"></canvas>
+    </div>
+    <div id="msg">Tap to serve</div>
     <div id="controls">
+      <button id="btn-serve">Serve</button>
       <button id="btn-restart">New Game</button>
       <button id="btn-ai">vs AI: OFF</button>
     </div>
-    <div class="key-hint">P1: W / S &nbsp;|&nbsp; P2: ↑ / ↓ &nbsp;|&nbsp; SPACE: serve</div>
+    <div class="key-hint touch-hint">Drag left side = P1 &nbsp;|&nbsp; Drag right side = P2</div>
+    <div class="key-hint kb-hint">P1: W / S &nbsp;|&nbsp; P2: ↑ / ↓ &nbsp;|&nbsp; SPACE: serve</div>
   </div>
   <script src="script.js"></script>
 </body>
