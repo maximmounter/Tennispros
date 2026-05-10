@@ -120,6 +120,9 @@ canvas {
 
 .hint { font-size: 11px; color: #444; text-align: center; }
 
+/* Hidden in portrait, shown in landscape */
+.landscape-only { display: none; }
+
 /* ── LANDSCAPE PHONE ── */
 @media (max-height: 500px) and (orientation: landscape) {
   body {
@@ -159,4 +162,7 @@ canvas {
   /* P1 label red, P2 label blue for quick recognition */
   #dpad-p1 .dpad-label { color: #ef5350; }
   #dpad-p2 .dpad-label { color: #42a5f5; }
+
+  /* Show serve button in landscape */
+  .landscape-only { display: block; font-size: 12px; padding: 8px 12px; margin-top: 4px; }
 }

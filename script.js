@@ -300,6 +300,10 @@ document.getElementById('btn-serve').addEventListener('click', () => {
   if (serving) serve();
 });
 document.getElementById('btn-restart').addEventListener('click', resetGame);
+document.getElementById('btn-serve-ls').addEventListener('click', () => {
+  if (winner) { resetGame(); return; }
+  if (serving) serve();
+});
 document.getElementById('btn-ai').addEventListener('click', () => {
   vsAI = !vsAI;
   document.getElementById('btn-ai').textContent = `vs AI: ${vsAI ? 'ON' : 'OFF'}`;
