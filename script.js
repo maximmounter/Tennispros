@@ -260,18 +260,20 @@ function drawBall(x, y) {
   ctx.beginPath(); ctx.arc(x - 1, y + 1, BALL_R, Math.PI * 1.1, Math.PI * 1.9); ctx.stroke();
 }
 
+const btnState = { p1Up: false, p1Down: false, p2Up: false, p2Down: false };
+
 function update() {
   const SPEED = 7;
   const p1 = state.p1;
   const p2 = state.p2;
   const ball = state.ball;
 
-  if (keys['w'] || keys['W']) p1.y = Math.max(0, p1.y - SPEED);
-  if (keys['s'] || keys['S']) p1.y = Math.min(H - PADDLE_H, p1.y + SPEED);
+  if (keys['w'] || keys['W'] || btnState.p1Up)   p1.y = Math.max(0, p1.y - SPEED);
+  if (keys['s'] || keys['S'] || btnState.p1Down) p1.y = Math.min(H - PADDLE_H, p1.y + SPEED);
 
   if (!vsAI) {
-    if (keys['ArrowUp']) p2.y = Math.max(0, p2.y - SPEED);
-    if (keys['ArrowDown']) p2.y = Math.min(H - PADDLE_H, p2.y + SPEED);
+    if (keys['ArrowUp']   || btnState.p2Up)   p2.y = Math.max(0, p2.y - SPEED);
+    if (keys['ArrowDown'] || btnState.p2Down) p2.y = Math.min(H - PADDLE_H, p2.y + SPEED);
   } else {
     const aiTarget = ball.y - PADDLE_H / 2;
     const aiSpeed = 4.5;
@@ -353,7 +355,6 @@ document.getElementById('btn-ai').addEventListener('click', () => {
 });
 
 // D-pad button hold controls
-const btnState = { p1Up: false, p1Down: false, p2Up: false, p2Down: false };
 
 function holdButton(btn, stateKey) {
   btn.addEventListener('mousedown', () => { btnState[stateKey] = true; });
@@ -369,18 +370,6 @@ holdButton(document.getElementById('p1-down'), 'p1Down');
 holdButton(document.getElementById('p2-up'),   'p2Up');
 holdButton(document.getElementById('p2-down'), 'p2Down');
 
-// Apply d-pad state inside the update loop
-const _origUpdate = update;
-// Patch update to include d-pad movement
-const DPAD_SPEED = 7;
-function update() {
-  _origUpdate();
-  if (btnState.p1Up)   state.p1.y = Math.max(0, state.p1.y - DPAD_SPEED);
-  if (btnState.p1Down) state.p1.y = Math.min(H - PADDLE_H, state.p1.y + DPAD_SPEED);
-  if (!vsAI) {
-    if (btnState.p2Up)   state.p2.y = Math.max(0, state.p2.y - DPAD_SPEED);
-    if (btnState.p2Down) state.p2.y = Math.min(H - PADDLE_H, state.p2.y + DPAD_SPEED);
-  }
-}
+
 
 loop();
