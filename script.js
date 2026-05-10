@@ -84,12 +84,11 @@ function point(player) {
   serveSide = player;
   state.ball = { x: W / 2, y: H / 2, vx: 0, vy: 0 };
   state.p1.y = state.p2.y = H / 2 - PADDLE_H / 2;
-  if (score[player] >= 7) {
+  if (score[player] >= 3) {
     winner = player;
     setMsg(`Player ${player + 1} wins!  Press Serve to play again`);
   } else {
-    const pts = ['15', '30', '40', 'Game'];
-    setMsg(`${pts[Math.min(score[0],3)]}-${pts[Math.min(score[1],3)]} — Press Serve`);
+    setMsg(`${score[0]} - ${score[1]} — Press Serve`);
   }
 }
 
