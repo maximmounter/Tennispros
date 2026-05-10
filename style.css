@@ -17,11 +17,11 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 660px;
+  max-width: 700px;
   gap: 8px;
 }
 
-/* Scoreboard */
+/* ── Scoreboard (portrait) ── */
 #scoreboard {
   display: flex;
   align-items: center;
@@ -32,8 +32,16 @@ body {
 .score-num    { font-family: 'Bebas Neue', sans-serif; font-size: 54px; line-height: 1; color: #f0f0f0; }
 .divider      { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: #444; }
 
-/* Canvas */
-#canvas-wrap { width: 100%; }
+/* ── Play row: [dpad] [canvas] [dpad] ── */
+#play-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+}
+
+#canvas-wrap { flex: 1; min-width: 0; }
 canvas {
   display: block;
   width: 100%;
@@ -42,30 +50,13 @@ canvas {
   box-shadow: 0 6px 28px rgba(0,0,0,.6);
 }
 
-/* Message */
-#msg {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
-  color: #999;
-  letter-spacing: .06em;
-  min-height: 22px;
-  text-align: center;
-}
-
-/* Portrait: controls sit below canvas */
-#touch-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 8px;
-}
-
+/* ── D-pads ── */
 .dpad {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 .dpad-label {
   font-family: 'Bebas Neue', sans-serif;
@@ -88,8 +79,25 @@ canvas {
 }
 .dpad-btn:active { background: #383838; transform: scale(.92); }
 
+/* ── Bottom bar (portrait) ── */
+#bottom-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+#msg {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: #999;
+  letter-spacing: .06em;
+  min-height: 22px;
+  text-align: center;
+}
+
 #center-btns {
-  flex: 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -112,58 +120,43 @@ canvas {
 
 .hint { font-size: 11px; color: #444; text-align: center; }
 
-/* ── LANDSCAPE PHONE ─────────────────────────────────────────────────────────
-   Rotate layout: d-pads flank the canvas, game info squeezes into a sidebar
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── LANDSCAPE PHONE ── */
 @media (max-height: 500px) and (orientation: landscape) {
-  body { padding: 4px; align-items: center; min-height: 100dvh; }
+  body {
+    padding: 4px;
+    align-items: center;
+    min-height: 100dvh;
+    overflow: hidden;
+  }
 
   #game-wrap {
-    flex-direction: row;       /* horizontal row */
-    align-items: center;
+    flex-direction: row;        /* whole UI in one horizontal strip */
+    align-items: stretch;
     justify-content: center;
     max-width: 100%;
-    gap: 6px;
     height: 100dvh;
-  }
-
-  /* Left d-pad */
-  #touch-controls {
-    flex-direction: column;    /* stack both pads + center vertically */
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    gap: 6px;
-    order: 1;
-  }
-
-  /* Canvas fills available space in the middle */
-  #canvas-wrap {
-    flex: 1;
-    min-width: 0;
-    order: 2;
-  }
-
-  /* Hide scoreboard from top, put score inside center-btns area */
-  #scoreboard { order: 0; display: none; }
-
-  /* Slim down buttons */
-  .dpad-btn { width: 52px; height: 52px; font-size: 20px; }
-  .dpad-label { font-size: 11px; }
-
-  #center-btns {
-    flex-direction: column;
     gap: 4px;
   }
-  .ctrl-btn { font-size: 11px; padding: 5px 10px; }
 
-  #msg { font-size: 13px; order: 3; writing-mode: horizontal-tb; }
-  .hint { display: none; }
+  /* Hide portrait-only elements */
+  #scoreboard { display: none; }
+  #bottom-bar { display: none; }
 
-  /* Show inline score on canvas overlay instead — we handle via JS */
-}
+  /* Play row fills all available height */
+  #play-row {
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    gap: 4px;
+  }
 
-@media (max-width: 420px) {
-  .dpad-btn { width: 64px; height: 64px; }
-  .score-num { font-size: 44px; }
+  /* Bigger tap targets in landscape */
+  .dpad { justify-content: center; height: 100%; gap: 8px; }
+  .dpad-btn { width: 64px; height: 64px; font-size: 24px; }
+  .dpad-label { font-size: 12px; }
+
+  /* P1 label red, P2 label blue for quick recognition */
+  #dpad-p1 .dpad-label { color: #ef5350; }
+  #dpad-p2 .dpad-label { color: #42a5f5; }
 }

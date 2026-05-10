@@ -52,7 +52,7 @@ holdBtn('p2-up',   'p2Up');
 holdBtn('p2-down', 'p2Down');
 
 // ── Game logic ────────────────────────────────────────────────────────────────
-function setMsg(m) { document.getElementById('msg').textContent = m; }
+function setMsg(m) { const el = document.getElementById('msg'); if (el) el.textContent = m; }
 
 function resetGame() {
   score = [0, 0];

@@ -10,6 +10,7 @@
 <body>
   <div id="game-wrap">
 
+    <!-- Portrait: top scoreboard -->
     <div id="scoreboard">
       <div class="player-score">
         <div class="player-name">Player 1</div>
@@ -22,32 +23,37 @@
       </div>
     </div>
 
-    <div id="canvas-wrap">
-      <canvas id="c" width="640" height="360"></canvas>
-    </div>
+    <!-- Main play area: [P1 pad] [canvas] [P2 pad] -->
+    <div id="play-row">
 
-    <div id="touch-controls">
-      <div class="dpad">
+      <div class="dpad" id="dpad-p1">
         <button class="dpad-btn" id="p1-up">▲</button>
         <div class="dpad-label">P1</div>
         <button class="dpad-btn" id="p1-down">▼</button>
       </div>
 
-      <div id="center-btns">
-        <div id="msg">Press Serve or SPACE to start</div>
-        <button class="ctrl-btn" id="btn-serve">Serve</button>
-        <button class="ctrl-btn" id="btn-restart">New Game</button>
-        <button class="ctrl-btn" id="btn-ai">vs AI: OFF</button>
+      <div id="canvas-wrap">
+        <canvas id="c" width="640" height="360"></canvas>
       </div>
 
-      <div class="dpad">
+      <div class="dpad" id="dpad-p2">
         <button class="dpad-btn" id="p2-up">▲</button>
         <div class="dpad-label">P2</div>
         <button class="dpad-btn" id="p2-down">▼</button>
       </div>
+
     </div>
 
-    <div class="hint">P1: W/S &nbsp;|&nbsp; P2: ↑/↓ &nbsp;|&nbsp; SPACE: serve</div>
+    <!-- Portrait: message + buttons below canvas -->
+    <div id="bottom-bar">
+      <div id="msg">Press Serve or SPACE to start</div>
+      <div id="center-btns">
+        <button class="ctrl-btn" id="btn-serve">Serve</button>
+        <button class="ctrl-btn" id="btn-restart">New Game</button>
+        <button class="ctrl-btn" id="btn-ai">vs AI: OFF</button>
+      </div>
+      <div class="hint">P1: W/S &nbsp;|&nbsp; P2: ↑/↓ &nbsp;|&nbsp; SPACE: serve</div>
+    </div>
 
   </div>
   <script src="script.js"></script>
