@@ -1,22 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600&display=swap');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-  touch-action: none;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   background: #1a1a1a;
+  font-family: 'Barlow', sans-serif;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+  padding: 12px;
   overflow-x: hidden;
 }
 
@@ -24,71 +16,49 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
   width: 100%;
-  max-width: 680px;
+  max-width: 660px;
+  gap: 10px;
 }
 
+/* Scoreboard */
 #scoreboard {
   display: flex;
   align-items: center;
   gap: 2rem;
-  margin-bottom: 0.75rem;
 }
-
 .player-score { text-align: center; }
+.player-name  { font-size: 12px; color: #777; letter-spacing: .1em; text-transform: uppercase; }
+.score-num    { font-family: 'Bebas Neue', sans-serif; font-size: 54px; line-height: 1; color: #f0f0f0; }
+.divider      { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: #444; }
 
-.player-name {
-  font-size: 13px;
-  color: #888;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.score-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 52px;
-  line-height: 1;
-  color: #f0f0f0;
-}
-
-.divider {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 36px;
-  color: #555;
-}
-
-#canvas-wrap {
-  width: 100%;
-  max-width: 640px;
-}
-
+/* Canvas */
+#canvas-wrap { width: 100%; }
 canvas {
-  border-radius: 8px;
   display: block;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   width: 100%;
   height: auto;
-  touch-action: none;
+  border-radius: 8px;
+  box-shadow: 0 6px 28px rgba(0,0,0,.6);
 }
 
-/* Touch control row */
+/* Message */
+#msg {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: #999;
+  letter-spacing: .06em;
+  min-height: 22px;
+  text-align: center;
+}
+
+/* Touch controls row */
 #touch-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 640px;
-  margin-top: 0.75rem;
-  gap: 0.5rem;
-}
-
-#center-controls {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
+  gap: 8px;
 }
 
 /* D-pad */
@@ -97,88 +67,56 @@ canvas {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  flex-shrink: 0;
 }
-
 .dpad-label {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 13px;
   color: #555;
-  letter-spacing: 0.06em;
 }
-
 .dpad-btn {
-  width: 54px;
-  height: 54px;
+  width: 58px;
+  height: 58px;
+  font-size: 22px;
   border-radius: 10px;
-  border: 1px solid #444;
-  background: #2a2a2a;
-  color: #ccc;
-  font-size: 20px;
+  border: 1px solid #3a3a3a;
+  background: #252525;
+  color: #bbb;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  touch-action: none;
-  transition: background 0.1s, transform 0.08s;
+  touch-action: manipulation;
+  transition: background .1s, transform .08s;
+}
+.dpad-btn:active { background: #383838; transform: scale(.92); }
+
+/* Centre buttons */
+#center-btns {
+  flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dpad-btn:active,
-.dpad-btn.pressed {
-  background: #3a3a3a;
-  transform: scale(0.93);
-}
-
-#msg {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
-  color: #aaa;
-  min-height: 24px;
-  letter-spacing: 0.05em;
-  text-align: center;
-}
-
-#controls {
-  display: flex;
-  gap: 0.5rem;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 6px;
 }
-
-#controls button {
+.ctrl-btn {
   font-family: 'Barlow', sans-serif;
   font-size: 12px;
   padding: 7px 14px;
   border-radius: 6px;
-  border: 1px solid #444;
-  background: #2a2a2a;
-  color: #ccc;
+  border: 1px solid #3a3a3a;
+  background: #252525;
+  color: #bbb;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  transition: background 0.15s;
+  touch-action: manipulation;
+  transition: background .15s;
 }
+.ctrl-btn:active { background: #333; }
 
-#controls button:hover,
-#controls button:active { background: #333; }
+/* Keyboard hint */
+.hint { font-size: 11px; color: #444; text-align: center; }
 
-.key-hint {
-  font-size: 11px;
-  color: #555;
-  letter-spacing: 0.03em;
-  text-align: center;
-}
-
-/* On mobile, hide keyboard hint; on desktop, hide the dpad labels a bit */
-@media (pointer: fine) {
-  .dpad { opacity: 0.5; }
-}
-
-@media (max-width: 480px) {
-  .score-num { font-size: 40px; }
-  .dpad-btn { width: 60px; height: 60px; font-size: 22px; }
-  #msg { font-size: 14px; }
-  #game-wrap { padding: 0.5rem; }
+/* Bigger d-pad on small screens */
+@media (max-width: 420px) {
+  .dpad-btn { width: 64px; height: 64px; }
+  .score-num { font-size: 44px; }
 }

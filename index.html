@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Tennis Pong</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="game-wrap">
+
     <div id="scoreboard">
       <div class="player-score">
         <div class="player-name">Player 1</div>
@@ -26,29 +26,30 @@
       <canvas id="c" width="640" height="360"></canvas>
     </div>
 
+    <div id="msg">Press Serve or SPACE to start</div>
+
     <div id="touch-controls">
-      <div class="dpad" id="dpad-p1">
+      <div class="dpad">
         <button class="dpad-btn" id="p1-up">▲</button>
         <div class="dpad-label">P1</div>
         <button class="dpad-btn" id="p1-down">▼</button>
       </div>
 
-      <div id="center-controls">
-        <div id="msg">Tap Serve or press SPACE</div>
-        <div id="controls">
-          <button id="btn-serve">Serve</button>
-          <button id="btn-restart">New Game</button>
-          <button id="btn-ai">vs AI: OFF</button>
-        </div>
-        <div class="key-hint kb-hint">P1: W / S &nbsp;|&nbsp; P2: ↑ / ↓ &nbsp;|&nbsp; SPACE: serve</div>
+      <div id="center-btns">
+        <button class="ctrl-btn" id="btn-serve">Serve</button>
+        <button class="ctrl-btn" id="btn-restart">New Game</button>
+        <button class="ctrl-btn" id="btn-ai">vs AI: OFF</button>
       </div>
 
-      <div class="dpad" id="dpad-p2">
+      <div class="dpad">
         <button class="dpad-btn" id="p2-up">▲</button>
         <div class="dpad-label">P2</div>
         <button class="dpad-btn" id="p2-down">▼</button>
       </div>
     </div>
+
+    <div class="hint">P1: W/S &nbsp;|&nbsp; P2: ↑/↓ &nbsp;|&nbsp; SPACE: serve</div>
+
   </div>
   <script src="script.js"></script>
 </body>
