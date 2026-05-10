@@ -8,7 +8,7 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  padding: 12px;
+  padding: 10px;
   overflow-x: hidden;
 }
 
@@ -18,7 +18,7 @@ body {
   align-items: center;
   width: 100%;
   max-width: 660px;
-  gap: 10px;
+  gap: 8px;
 }
 
 /* Scoreboard */
@@ -52,7 +52,7 @@ canvas {
   text-align: center;
 }
 
-/* Touch controls row */
+/* Portrait: controls sit below canvas */
 #touch-controls {
   display: flex;
   align-items: center;
@@ -61,7 +61,6 @@ canvas {
   gap: 8px;
 }
 
-/* D-pad */
 .dpad {
   display: flex;
   flex-direction: column;
@@ -89,7 +88,6 @@ canvas {
 }
 .dpad-btn:active { background: #383838; transform: scale(.92); }
 
-/* Centre buttons */
 #center-btns {
   flex: 1;
   display: flex;
@@ -112,10 +110,59 @@ canvas {
 }
 .ctrl-btn:active { background: #333; }
 
-/* Keyboard hint */
 .hint { font-size: 11px; color: #444; text-align: center; }
 
-/* Bigger d-pad on small screens */
+/* ── LANDSCAPE PHONE ─────────────────────────────────────────────────────────
+   Rotate layout: d-pads flank the canvas, game info squeezes into a sidebar
+   ───────────────────────────────────────────────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  body { padding: 4px; align-items: center; min-height: 100dvh; }
+
+  #game-wrap {
+    flex-direction: row;       /* horizontal row */
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    gap: 6px;
+    height: 100dvh;
+  }
+
+  /* Left d-pad */
+  #touch-controls {
+    flex-direction: column;    /* stack both pads + center vertically */
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    gap: 6px;
+    order: 1;
+  }
+
+  /* Canvas fills available space in the middle */
+  #canvas-wrap {
+    flex: 1;
+    min-width: 0;
+    order: 2;
+  }
+
+  /* Hide scoreboard from top, put score inside center-btns area */
+  #scoreboard { order: 0; display: none; }
+
+  /* Slim down buttons */
+  .dpad-btn { width: 52px; height: 52px; font-size: 20px; }
+  .dpad-label { font-size: 11px; }
+
+  #center-btns {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ctrl-btn { font-size: 11px; padding: 5px 10px; }
+
+  #msg { font-size: 13px; order: 3; writing-mode: horizontal-tb; }
+  .hint { display: none; }
+
+  /* Show inline score on canvas overlay instead — we handle via JS */
+}
+
 @media (max-width: 420px) {
   .dpad-btn { width: 64px; height: 64px; }
   .score-num { font-size: 44px; }

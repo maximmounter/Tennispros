@@ -261,6 +261,21 @@ function drawBall(x, y) {
   ctx.beginPath(); ctx.arc(x-1, y+1, BALL_R, 1.1*Math.PI, 1.9*Math.PI); ctx.stroke();
 }
 
+function isLandscapeMobile() {
+  return window.innerHeight < 500 && window.innerWidth > window.innerHeight;
+}
+
+function drawCanvasScore() {
+  // Draw score on canvas in landscape mode (scoreboard is hidden)
+  ctx.font = 'bold 36px "Bebas Neue", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
+  ctx.fillText(`${score[0]}  -  ${score[1]}`, W/2, 8);
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.fillText(`${score[0]}  -  ${score[1]}`, W/2, 7);
+}
+
 function draw() {
   ctx.clearRect(0, 0, W, H);
   drawCourt();
@@ -269,6 +284,7 @@ function draw() {
   const bx = serving ? (serveSide === 0 ? 60 : W-60) : state.ball.x;
   const by = serving ? H/2 : state.ball.y;
   drawBall(bx, by);
+  if (isLandscapeMobile()) drawCanvasScore();
 }
 
 // ── Loop ──────────────────────────────────────────────────────────────────────
